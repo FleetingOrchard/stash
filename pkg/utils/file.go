@@ -304,7 +304,16 @@ func GetNameFromPath(path string, stripExtension bool) string {
 func GetFunscriptPath(path string) string {
 	ext := filepath.Ext(path)
 	fn := strings.TrimSuffix(path, ext)
-	return fn + ".funscript"
+	stdPath := fn + ".funscript"
+
+	base := filepath.Base(path)
+	folder := strings.TrimSuffix(path, base)
+	customPath := folder + "script_regular.funscript"
+
+	if _, err := os.Stat(stdPath); os.IsNotExist(err) {
+		return customPath
+	}
+	return stdPath
 }
 
 // IsFsPathCaseSensitive checks the fs of the given path to see if it is case sensitive
