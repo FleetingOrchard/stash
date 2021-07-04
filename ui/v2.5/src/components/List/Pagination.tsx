@@ -13,6 +13,7 @@ interface IPaginationIndexProps {
   itemsPerPage: number;
   currentPage: number;
   totalItems: number;
+  totalDatabaseSize: number | undefined;
 }
 
 export const Pagination: React.FC<IPaginationProps> = ({
@@ -115,6 +116,7 @@ export const PaginationIndex: React.FC<IPaginationIndexProps> = ({
   itemsPerPage,
   currentPage,
   totalItems,
+  totalDatabaseSize,
 }) => {
   const intl = useIntl();
 
@@ -127,9 +129,15 @@ export const PaginationIndex: React.FC<IPaginationIndexProps> = ({
     firstItemCount + (itemsPerPage - 1),
     totalItems
   );
-  const indexText: string = `${intl.formatNumber(
+  let indexText: string = `${intl.formatNumber(
     firstItemCount
   )}-${intl.formatNumber(lastItemCount)} of ${intl.formatNumber(totalItems)}`;
+
+  if (totalDatabaseSize !== undefined)
+  {
+    const queuePercentOfDB = 100 * totalItems / totalDatabaseSize;
+    indexText = indexText.concat(` (${intl.formatNumber(queuePercentOfDB)}%)`);
+  }
 
   return (
     <span className="filter-container text-muted paginationIndex">
