@@ -4,7 +4,7 @@ import { FormattedNumber, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import Mousetrap from "mousetrap";
 import * as GQL from "src/core/generated-graphql";
-import { queryFindScenes, useFindScenes } from "src/core/StashService";
+import { queryFindScenes, useFindScenes, useStats } from "src/core/StashService";
 import { ItemList, ItemListContext, showWhenSelected } from "../List/ItemList";
 import { ListFilterModel } from "src/models/list-filter/filter";
 import { DisplayMode } from "src/models/list-filter/types";
@@ -34,42 +34,6 @@ function getCount(result: GQL.FindScenesQueryResult) {
   return result?.data?.findScenes?.count ?? 0;
 }
 
-function renderMetadataByline(result: GQL.FindScenesQueryResult) {
-  const duration = result?.data?.findScenes?.duration;
-  const size = result?.data?.findScenes?.filesize;
-  const filesize = size ? TextUtils.fileSize(size) : undefined;
-
-  if (!duration && !size) {
-    return;
-  }
-
-  const separator = duration && size ? " - " : "";
-
-  return (
-    <span className="scenes-stats">
-      &nbsp;(
-      {duration ? (
-        <span className="scenes-duration">
-          {TextUtils.secondsAsTimeString(duration, 3)}
-        </span>
-      ) : undefined}
-      {separator}
-      {size && filesize ? (
-        <span className="scenes-size">
-          <FormattedNumber
-            value={filesize.size}
-            maximumFractionDigits={TextUtils.fileSizeFractionalDigits(
-              filesize.unit
-            )}
-          />
-          {` ${TextUtils.formatFileSizeUnit(filesize.unit)}`}
-        </span>
-      ) : undefined}
-      )
-    </span>
-  );
-}
-
 interface ISceneList {
   filterHook?: (filter: ListFilterModel) => ListFilterModel;
   defaultSort?: string;
@@ -94,6 +58,8 @@ export const SceneList: React.FC<ISceneList> = ({
   const [isIdentifyDialogOpen, setIsIdentifyDialogOpen] = useState(false);
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const [isExportAll, setIsExportAll] = useState(false);
+
+  const { data: global } = useStats();
 
   const filterMode = GQL.FilterMode.Scenes;
 
@@ -133,6 +99,48 @@ export const SceneList: React.FC<ISceneList> = ({
       onClick: onExportAll,
     },
   ];
+
+  function renderMetadataByline(result: GQL.FindScenesQueryResult) {
+    const duration = result?.data?.findScenes?.duration;
+    const size = result?.data?.findScenes?.filesize;
+    const filesize = size ? TextUtils.fileSize(size) : undefined;
+
+    if (!duration && !size) {
+      return;
+    }
+
+    const separator = duration && size ? " - " : "";
+
+    const getPercentage = (num: number, denom: number | undefined) => {
+      return denom ? ` (${intl.formatNumber(num * 100 / denom)}%)` : undefined;
+    }
+
+    return (
+      <span className="scenes-stats">
+        &nbsp;(
+        {duration ? (
+          <span className="scenes-duration">
+            {TextUtils.secondsAsTimeString(duration, 3)}
+            {getPercentage(duration, global?.stats?.scenes_duration)}
+          </span>
+        ) : undefined}
+        {separator}
+        {size && filesize ? (
+          <span className="scenes-size">
+            <FormattedNumber
+              value={filesize.size}
+              maximumFractionDigits={TextUtils.fileSizeFractionalDigits(
+                filesize.unit
+              )}
+            />
+            {` ${TextUtils.formatFileSizeUnit(filesize.unit)}`}
+            {getPercentage(size, global?.stats?.scenes_size)}
+          </span>
+        ) : undefined}
+        )
+      </span>
+    );
+  }
 
   function addKeybinds(
     result: GQL.FindScenesQueryResult,

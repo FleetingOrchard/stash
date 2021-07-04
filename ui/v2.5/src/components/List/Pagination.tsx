@@ -145,6 +145,7 @@ interface IPaginationIndexProps {
   currentPage: number;
   totalItems: number;
   metadataByline?: React.ReactNode;
+  totalDatabaseSize: number | undefined;
 }
 
 const minPagesForCompact = 4;
@@ -231,6 +232,7 @@ export const PaginationIndex: React.FC<IPaginationIndexProps> = ({
   currentPage,
   totalItems,
   metadataByline,
+  totalDatabaseSize,
 }) => {
   const intl = useIntl();
 
@@ -243,9 +245,16 @@ export const PaginationIndex: React.FC<IPaginationIndexProps> = ({
     firstItemCount + (itemsPerPage - 1),
     totalItems
   );
-  const indexText: string = `${intl.formatNumber(
+  let indexText: string = `${intl.formatNumber(
     firstItemCount
   )}-${intl.formatNumber(lastItemCount)} of ${intl.formatNumber(totalItems)}`;
+
+  if (totalDatabaseSize)
+  {
+    console.log(totalDatabaseSize)
+    const queuePercentOfDB = 100 * totalItems / totalDatabaseSize;
+    indexText = indexText.concat(` (${intl.formatNumber(queuePercentOfDB)}%)`);
+  }
 
   return (
     <span className="filter-container text-muted paginationIndex center-text">

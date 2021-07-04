@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import * as GQL from "src/core/generated-graphql";
+import { useStats } from "src/core/StashService"
 import { QueryResult } from "@apollo/client";
 import {
   Criterion,
@@ -106,6 +107,9 @@ export const ItemList = <T extends QueryResult, E extends IHasID>(
   }, [renderMetadataByline, cachedResult]);
 
   const pages = Math.ceil(totalCount / filter.itemsPerPage);
+
+  const {data} = useStats();
+  const dbSize = filter?.mode === GQL.FilterMode.Scenes ?? false ? data?.stats.scene_count : undefined;
 
   const onChangePage = useCallback(
     (p: number) => {
@@ -259,6 +263,7 @@ export const ItemList = <T extends QueryResult, E extends IHasID>(
         totalCount={totalCount}
         onChangePage={onChangePage}
         metadataByline={metadataByline}
+        totalDatabaseSize={dbSize}
       >
         {renderContent(
           result,

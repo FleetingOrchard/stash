@@ -12,6 +12,7 @@ export const PagedList: React.FC<
     totalCount: number;
     onChangePage: (page: number) => void;
     metadataByline?: React.ReactNode;
+    totalDatabaseSize : number | undefined;
   }>
 > = ({
   result,
@@ -20,6 +21,7 @@ export const PagedList: React.FC<
   totalCount,
   onChangePage,
   metadataByline,
+  totalDatabaseSize,
   children,
 }) => {
   const pages = Math.ceil(totalCount / filter.itemsPerPage);
@@ -50,6 +52,7 @@ export const PagedList: React.FC<
         currentPage={filter.currentPage}
         totalItems={totalCount}
         metadataByline={metadataByline}
+        totalDatabaseSize={totalDatabaseSize}
       />
     );
   }, [
@@ -58,6 +61,7 @@ export const PagedList: React.FC<
     filter.currentPage,
     totalCount,
     metadataByline,
+    totalDatabaseSize,
   ]);
 
   const content = useMemo(() => {
