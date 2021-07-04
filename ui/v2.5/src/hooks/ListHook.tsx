@@ -47,6 +47,7 @@ import {
   useFindGalleries,
   useFindPerformers,
   useFindTags,
+  useStats,
 } from "src/core/StashService";
 import { ListFilterModel } from "src/models/list-filter/filter";
 import { DisplayMode } from "src/models/list-filter/types";
@@ -211,6 +212,10 @@ const useRenderList = <
   const totalCount = getCount(result);
   const metadataByline = getMetadataByline(result);
   const items = getData(result);
+
+  const { data } = useStats();
+  const dbSize = filter?.mode === FilterMode.Scenes ?? false ?
+    data?.stats.scene_count : undefined;
 
   // handle case where page is more than there are pages
   useEffect(() => {
@@ -439,6 +444,7 @@ const useRenderList = <
           currentPage={filter.currentPage}
           totalItems={totalCount}
           metadataByline={metadataByline}
+          totalDatabaseSize={dbSize}
         />
         {renderContent(result, filter, selectedIds, onChangePage, pages)}
         <PaginationIndex
@@ -446,6 +452,7 @@ const useRenderList = <
           currentPage={filter.currentPage}
           totalItems={totalCount}
           metadataByline={metadataByline}
+          totalDatabaseSize={dbSize}
         />
         {renderPagination()}
       </>
