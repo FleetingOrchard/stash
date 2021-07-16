@@ -208,8 +208,8 @@ const RenderList = <
   const pages = Math.ceil(totalCount / filter.itemsPerPage);
 
   const { data } = useStats();
-  const dbSize = filter.mode === FilterMode.Scenes ?
-    data?.stats.scene_count : undefined;
+  const dbSize =
+    filter.mode === FilterMode.Scenes ? data?.stats.scene_count : undefined;
 
   // handle case where page is more than there are pages
   useEffect(() => {

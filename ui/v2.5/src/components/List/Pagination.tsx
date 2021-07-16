@@ -133,9 +133,8 @@ export const PaginationIndex: React.FC<IPaginationIndexProps> = ({
     firstItemCount
   )}-${intl.formatNumber(lastItemCount)} of ${intl.formatNumber(totalItems)}`;
 
-  if (totalDatabaseSize !== undefined)
-  {
-    const queuePercentOfDB = 100 * totalItems / totalDatabaseSize;
+  if (totalDatabaseSize !== undefined) {
+    const queuePercentOfDB = (100 * totalItems) / totalDatabaseSize;
     indexText = indexText.concat(` (${intl.formatNumber(queuePercentOfDB)}%)`);
   }
 
