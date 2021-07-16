@@ -409,6 +409,12 @@ const RenderList = <
 
     return (
       <>
+        <PaginationIndex
+          itemsPerPage={filter.itemsPerPage}
+          currentPage={filter.currentPage}
+          totalItems={totalCount}
+          totalDatabaseSize={dbSize}
+        />
         {renderPagination()}
         {renderContent(
           result,
