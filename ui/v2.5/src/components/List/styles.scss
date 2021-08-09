@@ -80,6 +80,10 @@ input[type="range"].zoom-slider {
   }
 }
 
+.saved-filter-list-menu.dropdown-menu {
+  overflow-y: clip;
+}
+
 .saved-filter-list {
   list-style: none;
   margin-bottom: 0;
