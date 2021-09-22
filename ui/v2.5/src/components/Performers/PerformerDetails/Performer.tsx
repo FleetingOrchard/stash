@@ -37,6 +37,7 @@ import {
   faDove,
   faHeart,
   faLink,
+  faGlobe
 } from "@fortawesome/free-solid-svg-icons";
 import { IUIConfig } from "src/core/config";
 
@@ -387,6 +388,21 @@ const PerformerPage: React.FC<IProps> = ({ performer }) => {
           </a>
         </Button>
       )}
+      <Button className="minimal">
+        <a
+          href={TextUtils.sanitiseURL(
+            `https://www.empornium.is/torrents.php?taglist=${
+              performer.name?.replaceAll(".", "").replaceAll(" ", ".").toLowerCase() ?? ""
+            }&title=${
+              performer.name?.replaceAll(".", " ").split(" ")[0] ?? ""
+            }`)}
+          className="empornium"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon icon={faGlobe} />
+        </a>
+      </Button>
     </span>
   );
 
