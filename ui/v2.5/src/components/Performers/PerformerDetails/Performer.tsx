@@ -389,7 +389,7 @@ const PerformerPage: React.FC<IProps> = ({ performer, tabKey }) => {
                     favorite={performer.favorite}
                     onToggleFavorite={(v) => setFavorite(v)}
                   />
-                  <ExternalLinkButtons urls={performer.urls ?? undefined} />
+                  <ExternalLinkButtons name={performer.name} urls={performer.urls ?? undefined} />
                 </span>
               </DetailTitle>
               <AliasList aliases={performer.alias_list} />
