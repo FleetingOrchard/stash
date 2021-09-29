@@ -85,6 +85,7 @@ export const SceneMarkersPanel: React.FC<ISceneMarkersPanelProps> = (
           window.scrollTo(0, 0);
           onClickMarker(marker as GQL.SceneMarkerDataFragment);
         }}
+        forceMute
       />
     </div>
   );

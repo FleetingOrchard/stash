@@ -14,6 +14,7 @@ interface IWallPanelProps {
       | GQL.SceneMarkerDataFragment
       | GQL.SlimImageDataFragment
   ) => void;
+  forceMute?: boolean;
 }
 
 const calculateClass = (index: number, count: number) => {
@@ -50,6 +51,7 @@ export const WallPanel: React.FC<IWallPanelProps> = (
       sceneQueue={props.sceneQueue}
       clickHandler={props.clickHandler}
       className={calculateClass(index, sceneArray.length)}
+      forceMute={props.forceMute}
     />
   ));
 
@@ -61,6 +63,7 @@ export const WallPanel: React.FC<IWallPanelProps> = (
       sceneMarker={marker}
       clickHandler={props.clickHandler}
       className={calculateClass(index, markerArray.length)}
+      forceMute={props.forceMute}
     />
   ));
 
@@ -70,6 +73,7 @@ export const WallPanel: React.FC<IWallPanelProps> = (
       image={image}
       clickHandler={props.clickHandler}
       className={calculateClass(index, imageArray.length)}
+      forceMute={props.forceMute}
     />
   ));
 

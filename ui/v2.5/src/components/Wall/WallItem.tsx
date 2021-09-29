@@ -20,6 +20,7 @@ interface IWallItemProps {
       | GQL.SlimImageDataFragment
   ) => void;
   className: string;
+  forceMute?: boolean;
 }
 
 interface IPreviews {
@@ -32,12 +33,13 @@ const Preview: React.FC<{
   previews?: IPreviews;
   config?: GQL.ConfigDataFragment;
   active: boolean;
-}> = ({ previews, config, active }) => {
+  forceMute: boolean;
+}> = ({ previews, config, active, forceMute }) => {
   const videoElement = useRef() as React.MutableRefObject<HTMLVideoElement>;
   const [isMissing, setIsMissing] = useState(false);
 
   const previewType = config?.interface?.wallPlayback;
-  const soundOnPreview = config?.interface?.soundOnPreview ?? false;
+  const soundOnPreview = (config?.interface?.soundOnPreview ?? false) && !forceMute;
 
   useEffect(() => {
     if (!videoElement.current) return;
@@ -208,7 +210,12 @@ export const WallItem: React.FC<IWallItemProps> = (props: IWallItemProps) => {
     <div className="wall-item">
       <div className={`wall-item-container ${props.className}`} ref={wallItem}>
         <Link onClick={clickHandler} to={linkSrc} className="wall-item-anchor">
-          <Preview previews={previews} config={config} active={active} />
+          <Preview
+            previews={previews}
+            config={config}
+            active={active}
+            forceMute={props.forceMute ?? false}
+          />
           {renderText()}
         </Link>
       </div>
