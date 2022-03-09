@@ -9,5 +9,5 @@ interface ITagScenesPanel {
 
 export const TagScenesPanel: React.FC<ITagScenesPanel> = ({ tag }) => {
   const filterHook = useTagFilterHook(tag);
-  return <SceneList filterHook={filterHook} />;
+  return <SceneList filterHook={filterHook} defaultSort="random" />;
 };

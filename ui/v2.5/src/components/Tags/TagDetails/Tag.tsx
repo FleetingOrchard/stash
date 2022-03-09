@@ -57,7 +57,8 @@ const TagPage: React.FC<IProps> = ({ tag }) => {
   const abbreviateCounter =
     (configuration?.ui as IUIConfig)?.abbreviateCounters ?? false;
 
-  const { tab = "scenes" } = useParams<ITabParams>();
+  //const { tab = "scenes" } = useParams<ITabParams>();
+  const { tab } = useParams<ITabParams>();
 
   // Editing state
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -74,15 +75,30 @@ const TagPage: React.FC<IProps> = ({ tag }) => {
     tab === "markers" ||
     tab === "images" ||
     tab === "performers" ||
-    tab === "galleries"
+    tab === "galleries" ||
+    tab === "scenes"
       ? tab
-      : "scenes";
+      : getDefaultTab(tag);
   const setActiveTabKey = (newTab: string | null) => {
     if (tab !== newTab) {
-      const tabParam = newTab === "scenes" ? "" : `/${newTab}`;
+      const tabParam = `/${newTab}`;
       history.replace(`/tags/${tag.id}${tabParam}`);
     }
   };
+
+  function getDefaultTab(tag: GQL.TagDataFragment) {
+    let tagCounts = [
+      { tab: "markers", count: tag.scene_marker_count ?? 0 },
+      { tab: "images", count: tag.image_count ?? 0 },
+      { tab: "galleries", count: tag.gallery_count ?? 0 },
+      { tab: "performers", count: tag.performer_count ?? 0 },
+      { tab: "scenes", count: tag.scene_count ?? 0 },
+    ];
+
+    return tagCounts.reduce(
+      (previous, current) => (previous.count <= current.count ? current : previous)
+    ).tab;
+  }
 
   // set up hotkeys
   useEffect(() => {
