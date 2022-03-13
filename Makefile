@@ -32,6 +32,9 @@ export CGO_ENABLED = 1
 .PHONY: release pre-build
 
 release: pre-ui generate ui build-release
+deploy: release copy
+copy:
+	cp stash.exe ~/.stash/stash.exe
 
 pre-build:
 ifndef BUILD_DATE
