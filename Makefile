@@ -55,6 +55,9 @@ endif
 
 .PHONY: release
 release: pre-ui generate ui build-release
+deploy: release copy
+copy:
+	cp stash.exe ~/.stash/stash.exe
 
 # targets to set various build flags
 # use combinations on the make command-line to configure a build, e.g.:
