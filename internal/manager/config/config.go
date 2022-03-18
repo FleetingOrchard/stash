@@ -43,6 +43,8 @@ const (
 
 	ExternalPlayer = "external_player"
 
+	FunscriptDir = "funscript_dir"
+
 	Exclude      = "exclude"
 	ImageExclude = "image_exclude"
 
@@ -543,6 +545,10 @@ func (i *Instance) GetBackupDirectoryPathOrDefault() string {
 	}
 
 	return ret
+}
+
+func (i *Instance) GetFunscriptDirPath() string {
+	return i.getString(FunscriptDir)
 }
 
 func (i *Instance) GetJWTSignKey() []byte {

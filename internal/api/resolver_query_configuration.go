@@ -78,6 +78,8 @@ func makeConfigGeneralResult() *ConfigGeneralResult {
 	maxStreamingTranscodeSize := config.GetMaxStreamingTranscodeSize()
 
 	customPerformerImageLocation := config.GetCustomPerformerImageLocation()
+	externalPlayerPath := config.GetExternalPlayerPath()
+	funscriptDirPath := config.GetFunscriptDirPath()
 
 	scraperUserAgent := config.GetScraperUserAgent()
 	scraperCDPPath := config.GetScraperCDPPath()
@@ -91,7 +93,8 @@ func makeConfigGeneralResult() *ConfigGeneralResult {
 		ConfigFilePath:               config.GetConfigFile(),
 		ScrapersPath:                 config.GetScrapersPath(),
 		CachePath:                    config.GetCachePath(),
-		ExternalPlayerPath:           config.GetExternalPlayerPath(),
+		ExternalPlayerPath:           &externalPlayerPath,
+		FunscriptDirPath:             &funscriptDirPath,
 		CalculateMd5:                 config.IsCalculateMD5(),
 		VideoFileNamingAlgorithm:     config.GetVideoFileNamingAlgorithm(),
 		ParallelTasks:                config.GetParallelTasks(),

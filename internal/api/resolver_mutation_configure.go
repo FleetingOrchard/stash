@@ -150,17 +150,32 @@ func (r *mutationResolver) ConfigureGeneral(ctx context.Context, input ConfigGen
 	}
 
 	refreshExternalPlayer := false
-	existingExternalPlayerPath := c.GetExternalPlayerPath()
-	if existingExternalPlayerPath != *input.ExternalPlayerPath {
-		// We want users to be able to blank the External Player path.
-		if *input.ExternalPlayerPath != "" {
-			if err := validateExecutable(config.ExternalPlayer, *input.ExternalPlayerPath, true); err != nil {
-				return makeConfigGeneralResult(), err
+	if input.ExternalPlayerPath != nil {
+		existingExternalPlayerPath := c.GetExternalPlayerPath()
+		if existingExternalPlayerPath != *input.ExternalPlayerPath {
+			// We want users to be able to blank the External Player path.
+			if *input.ExternalPlayerPath != "" {
+				if err := validateExecutable(config.ExternalPlayer, *input.ExternalPlayerPath, true); err != nil {
+					return makeConfigGeneralResult(), err
+				}
 			}
-		}
 
-		refreshExternalPlayer = true
-		c.Set(config.ExternalPlayer, input.ExternalPlayerPath)
+			refreshExternalPlayer = true
+			c.Set(config.ExternalPlayer, input.ExternalPlayerPath)
+		}
+	}
+
+	if input.FunscriptDirPath != nil {
+		existingFunscriptDirPath := c.GetFunscriptDirPath()
+		if existingFunscriptDirPath != *input.FunscriptDirPath {
+			// We want users to be able to blank the funscript directory path.
+			if *input.FunscriptDirPath != "" {
+				if err := validateDir(config.FunscriptDir, *input.FunscriptDirPath, true); err != nil {
+					return makeConfigGeneralResult(), err
+				}
+			}
+			c.Set(config.FunscriptDir, input.FunscriptDirPath)
+		}
 	}
 
 	if input.VideoFileNamingAlgorithm != nil && *input.VideoFileNamingAlgorithm != c.GetVideoFileNamingAlgorithm() {

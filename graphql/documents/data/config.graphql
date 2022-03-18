@@ -11,6 +11,7 @@ fragment ConfigGeneralData on ConfigGeneralResult {
   scrapersPath
   cachePath
   externalPlayerPath
+  funscriptDirPath
   calculateMD5
   videoFileNamingAlgorithm
   parallelTasks

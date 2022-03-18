@@ -262,7 +262,7 @@ func (rs sceneRoutes) Webp(w http.ResponseWriter, r *http.Request) {
 
 func (rs sceneRoutes) Funscript(w http.ResponseWriter, r *http.Request) {
 	s := r.Context().Value(sceneKey).(*models.Scene)
-	funscript := video.GetFunscriptPath(s.Path)
+	funscript := video.GetFunscriptPath(s.Path, config.GetInstance().GetFunscriptDirPath())
 	serveFileNoCache(w, r, funscript)
 }
 

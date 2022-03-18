@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/stashapp/stash/internal/manager/config"
 	"github.com/stashapp/stash/pkg/ffmpeg"
 	"github.com/stashapp/stash/pkg/file"
 )
@@ -38,7 +39,7 @@ func (d *Decorator) Decorate(ctx context.Context, fs file.FS, f file.File) (file
 
 	// check if there is a funscript file
 	interactive := false
-	if _, err := fs.Lstat(GetFunscriptPath(base.Path)); err == nil {
+	if _, err := fs.Lstat(GetFunscriptPath(base.Path, config.GetInstance().GetFunscriptDirPath())); err == nil {
 		interactive = true
 	}
 
@@ -68,7 +69,7 @@ func (d *Decorator) IsMissingMetadata(ctx context.Context, fs file.FS, f file.Fi
 	}
 
 	interactive := false
-	if _, err := fs.Lstat(GetFunscriptPath(vf.Base().Path)); err == nil {
+	if _, err := fs.Lstat(GetFunscriptPath(vf.Base().Path, config.GetInstance().GetFunscriptDirPath())); err == nil {
 		interactive = true
 	}
 

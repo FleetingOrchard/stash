@@ -292,6 +292,10 @@
         "description": "Path to external player executable",
         "heading": "External Player Path"
       },
+      "funscript_dir_path": {
+        "description": "Path to funscript directory",
+        "heading": "Funscript Directory Path"
+      },
       "number_of_parallel_task_for_scan_generation_desc": "Set to 0 for auto-detection. Warning running more tasks than is required to achieve 100% cpu utilisation will decrease performance and potentially cause other issues.",
       "number_of_parallel_task_for_scan_generation_head": "Number of parallel task for scan/generation",
       "parallel_scan_head": "Parallel Scan/Generation",

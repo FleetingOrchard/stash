@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 
 	"github.com/stashapp/stash/pkg/file"
-	"github.com/stashapp/stash/pkg/file/video"
 	"github.com/stashapp/stash/pkg/fsutil"
 	"github.com/stashapp/stash/pkg/models"
 	"github.com/stashapp/stash/pkg/models/paths"
@@ -180,17 +179,6 @@ func (s *Service) deleteFiles(ctx context.Context, scene *models.Scene, fileDele
 		const deleteFile = true
 		if err := file.Destroy(ctx, s.File, f, fileDeleter.Deleter, deleteFile); err != nil {
 			return err
-		}
-
-		// don't delete files in zip archives
-		if f.ZipFileID == nil {
-			funscriptPath := video.GetFunscriptPath(f.Path)
-			funscriptExists, _ := fsutil.FileExists(funscriptPath)
-			if funscriptExists {
-				if err := fileDeleter.Files([]string{funscriptPath}); err != nil {
-					return err
-				}
-			}
 		}
 	}
 

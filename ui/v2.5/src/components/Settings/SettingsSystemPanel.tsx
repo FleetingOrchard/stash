@@ -149,6 +149,14 @@ export const SettingsConfigurationPanel: React.FC = () => {
         />
 
         <StringSetting
+          id="funscript-dir-path"
+          headingID="config.general.funscript_dir_path.heading"
+          subHeadingID="config.general.funscript_dir_path.description"
+          value={general.funscriptDirPath ?? undefined}
+          onChange={(v) => saveGeneral({ funscriptDirPath: v })}
+        />
+
+        <StringSetting
           id="custom-performer-image-location"
           headingID="config.ui.performers.options.image_location.heading"
           subHeadingID="config.ui.performers.options.image_location.description"

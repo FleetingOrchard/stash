@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/stashapp/stash/internal/manager/config"
 	"github.com/stashapp/stash/pkg/file/video"
 	"github.com/stashapp/stash/pkg/fsutil"
 	"github.com/stashapp/stash/pkg/logger"
@@ -27,7 +28,7 @@ func (t *GenerateInteractiveHeatmapSpeedTask) Start(ctx context.Context) {
 	}
 
 	videoChecksum := t.Scene.GetHash(t.fileNamingAlgorithm)
-	funscriptPath := video.GetFunscriptPath(t.Scene.Path)
+	funscriptPath := video.GetFunscriptPath(t.Scene.Path, config.GetInstance().GetFunscriptDirPath())
 	heatmapPath := instance.Paths.Scene.GetInteractiveHeatmapPath(videoChecksum)
 
 	generator := NewInteractiveHeatmapSpeedGenerator(funscriptPath, heatmapPath)
