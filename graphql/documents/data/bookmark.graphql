@@ -1,0 +1,6 @@
+fragment BookmarkData on Bookmark {
+  id
+  url
+  name
+  position
+}

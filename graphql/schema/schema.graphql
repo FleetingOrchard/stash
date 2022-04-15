@@ -148,6 +148,7 @@ type Query {
   allStudios: [Studio!]!
   allMovies: [Movie!]!
   allTags: [Tag!]!
+  allBookmarks: [Bookmark!]!
 
   # Get everything with minimal metadata
 
@@ -232,6 +233,9 @@ type Mutation {
   tagsMerge(input: TagsMergeInput!): Tag
 
   deleteFiles(ids: [ID!]!): Boolean!
+  bookmarkCreate(input: BookmarkCreateInput!): Bookmark
+  bookmarkUpdate(input: BookmarkUpdateInput!): Bookmark
+  bookmarkDestroy(input: BookmarkDestroyInput!): Boolean!
 
   # Saved filters
   saveFilter(input: SaveFilterInput!): SavedFilter!

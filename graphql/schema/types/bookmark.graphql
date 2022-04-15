@@ -1,0 +1,22 @@
+type Bookmark {
+  id: ID!
+  url: String!
+  name: String!
+  position: Int!
+}
+
+input BookmarkCreateInput {
+  url: String!
+  name: String!
+}
+
+input BookmarkUpdateInput {
+  id: ID!
+  url: String!
+  name: String!
+  position: Int!
+}
+
+input BookmarkDestroyInput {
+  id: ID!
+}

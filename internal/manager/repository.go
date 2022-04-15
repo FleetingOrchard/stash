@@ -61,6 +61,7 @@ type Repository struct {
 	Studio      models.StudioReaderWriter
 	Tag         models.TagReaderWriter
 	SavedFilter models.SavedFilterReaderWriter
+	Bookmark    models.BookmarkReaderWriter
 }
 
 func (r *Repository) WithTxn(ctx context.Context, fn txn.TxnFunc) error {
@@ -88,6 +89,7 @@ func sqliteRepository(d *sqlite.Database) Repository {
 		Studio:      txnRepo.Studio,
 		Tag:         txnRepo.Tag,
 		SavedFilter: txnRepo.SavedFilter,
+		Bookmark:    txnRepo.Bookmark,
 	}
 }
 

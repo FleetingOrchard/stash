@@ -5,8 +5,8 @@ import {
   MessageDescriptor,
   useIntl,
 } from "react-intl";
-import { Nav, Navbar, Button, Fade } from "react-bootstrap";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { Nav, Navbar, Button, ButtonGroup, Fade } from "react-bootstrap";
+import { IconName, IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, NavLink, useLocation, useHistory } from "react-router-dom";
 import Mousetrap from "mousetrap";
@@ -31,7 +31,10 @@ import {
   faTimes,
   faUser,
   faVideo,
+  faBookmark,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
+import { useBookmarkCreate } from "src/core/StashService"
 
 interface IMenuItem {
   name: string;
@@ -40,7 +43,9 @@ interface IMenuItem {
   icon: IconDefinition;
   hotkey: string;
   userCreatable?: boolean;
+  trailingElement?: JSX.Element;
 }
+
 const messages = defineMessages({
   scenes: {
     id: "scenes",
@@ -69,6 +74,10 @@ const messages = defineMessages({
   tags: {
     id: "tags",
     defaultMessage: "Tags",
+  },
+  bookmarks: {
+    id: "bookmarks",
+    defaultMessage: "Bookmarks",
   },
   galleries: {
     id: "galleries",
@@ -151,6 +160,14 @@ const allMenuItems: IMenuItem[] = [
     hotkey: "g t",
     userCreatable: true,
   },
+  {
+    name: "bookmarks",
+    message: messages.bookmarks,
+    href: "/bookmarks",
+    icon: faBookmark,
+    hotkey: "g b",
+    userCreatable: true,
+  },
 ];
 
 const newPathsList = allMenuItems
@@ -165,11 +182,24 @@ export const MainNavbar: React.FC = () => {
 
   // Show all menu items by default, unless config says otherwise
   const [menuItems, setMenuItems] = useState<IMenuItem[]>(allMenuItems);
-
   const [expanded, setExpanded] = useState(false);
+  const [createBookmark] = useBookmarkCreate();
+
+  const bookmarksTrailingElement =
+    <Button className="minimal p-4 p-xl-2 d-flex d-xl-inline-block flex-column justify-content-between align-items-center"
+      onClick={() => { createBookmark({variables: {input: {url: window.location.pathname + window.location.search + window.location.hash, name: document.title}}}) }} >
+      <Icon icon={faPlus} className="nav-menu-icon d-block d-xl-inline mb-2 mb-xl-0" />
+    </Button>;
 
   useEffect(() => {
     const iCfg = configuration?.interface;
+    allMenuItems.forEach((menuItem) => {
+      if (menuItem.name === "bookmarks")
+      {
+        menuItem.trailingElement = bookmarksTrailingElement;
+      }
+    });
+
     if (iCfg?.menuItems) {
       setMenuItems(
         allMenuItems.filter((menuItem) =>
@@ -319,6 +349,32 @@ export const MainNavbar: React.FC = () => {
     );
   }
 
+  function renderMenuLink(href: string, icon: IconDefinition, message: MessageDescriptor, trailingElement: JSX.Element | undefined) {
+    const conditionalWrapper = (condition: any, wrapper: any, children: any) => {return condition ? wrapper(children) : children};
+
+    return (
+      <Nav.Link
+        eventKey={href}
+        as="div"
+        key={href}
+        className="col-4 col-sm-3 col-md-2 col-lg-auto"
+      >
+        {conditionalWrapper(!trailingElement, (x: any) => {return <LinkContainer activeClassName="active" exact to={href}>{x}</LinkContainer>}, 
+          <ButtonGroup>
+            {conditionalWrapper(trailingElement, (x: any) => {return <LinkContainer activeClassName="active" exact to={href}>{x}</LinkContainer>}, 
+            <Button className="minimal p-4 p-xl-2 d-flex d-xl-inline-block flex-column justify-content-between align-items-center" href={href}>
+              <Icon
+                {...{ icon }}
+                className="nav-menu-icon d-block d-xl-inline mb-2 mb-xl-0"
+              />
+              <span>{intl.formatMessage(message)}</span>
+            </Button>)}
+            {trailingElement ?? null}
+          </ButtonGroup>)}
+      </Nav.Link>
+    )
+  }
+
   return (
     <>
       <Navbar
@@ -336,23 +392,8 @@ export const MainNavbar: React.FC = () => {
           <Fade in={!loading}>
             <>
               <Nav>
-                {menuItems.map(({ href, icon, message }) => (
-                  <Nav.Link
-                    eventKey={href}
-                    as="div"
-                    key={href}
-                    className="col-4 col-sm-3 col-md-2 col-lg-auto"
-                  >
-                    <LinkContainer activeClassName="active" exact to={href}>
-                      <Button className="minimal p-4 p-xl-2 d-flex d-xl-inline-block flex-column justify-content-between align-items-center">
-                        <Icon
-                          {...{ icon }}
-                          className="nav-menu-icon d-block d-xl-inline mb-2 mb-xl-0"
-                        />
-                        <span>{intl.formatMessage(message)}</span>
-                      </Button>
-                    </LinkContainer>
-                  </Nav.Link>
+                {menuItems.map(({ href, icon, message, trailingElement }) => (
+                  renderMenuLink(href, icon, message, trailingElement)
                 ))}
               </Nav>
               <Nav>{renderUtilityButtons()}</Nav>

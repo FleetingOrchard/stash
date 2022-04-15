@@ -880,12 +880,32 @@ export const useTagDestroy = (input: GQL.TagDestroyInput) =>
     variables: input,
     update: deleteCache(tagMutationImpactedQueries),
   });
-
 export const useTagsDestroy = (input: GQL.TagsDestroyMutationVariables) =>
   GQL.useTagsDestroyMutation({
     variables: input,
     update: deleteCache(tagMutationImpactedQueries),
   });
+
+export const bookmarkMutationImpactedQueries = [
+  GQL.AllBookmarksDocument,
+];
+
+export const useBookmarkCreate = () =>
+  GQL.useBookmarkCreateMutation({
+    refetchQueries: getQueryNames(bookmarkMutationImpactedQueries),
+    update: deleteCache(bookmarkMutationImpactedQueries),
+  })
+export const useBookmarkUpdate = () =>
+  GQL.useBookmarkUpdateMutation({
+    refetchQueries: getQueryNames(bookmarkMutationImpactedQueries),
+    update: deleteCache(bookmarkMutationImpactedQueries),
+  })
+export const useBookmarkDestroy = (input: GQL.BookmarkDestroyInput) =>
+  GQL.useBookmarkDestroyMutation({
+    variables: input,
+    refetchQueries: getQueryNames(bookmarkMutationImpactedQueries),
+    update: deleteCache(bookmarkMutationImpactedQueries),
+  })
 
 export const savedFilterMutationImpactedQueries = [
   GQL.FindSavedFiltersDocument,

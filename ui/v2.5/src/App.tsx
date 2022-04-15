@@ -38,6 +38,7 @@ const Settings = lazy(() => import("./components/Settings/Settings"));
 const Stats = lazy(() => import("./components/Stats"));
 const Studios = lazy(() => import("./components/Studios/Studios"));
 const Galleries = lazy(() => import("./components/Galleries/Galleries"));
+import Bookmarks from "./components/Bookmarks/Bookmarks";
 
 const Movies = lazy(() => import("./components/Movies/Movies"));
 const Tags = lazy(() => import("./components/Tags/Tags"));
@@ -168,6 +169,7 @@ export const App: React.FC = () => {
             <Route path="/galleries" component={Galleries} />
             <Route path="/performers" component={Performers} />
             <Route path="/tags" component={Tags} />
+            <Route path="/bookmarks" component={Bookmarks} />
             <Route path="/studios" component={Studios} />
             <Route path="/movies" component={Movies} />
             <Route path="/stats" component={Stats} />

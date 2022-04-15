@@ -157,6 +157,34 @@ func (r *repository) runIdsQuery(ctx context.Context, query string, args []inter
 	return vsm, nil
 }
 
+func (r *repository) runSumQuery(ctx context.Context, query string, args []interface{}) (float64, error) {
+	// Init structure to hold result
+	result := struct {
+		Float64 float64 `db:"sum"`
+	}{0}
+
+	// Perform query and fetch result
+	if err := r.tx.Get(ctx, &result, query, args...); err != nil && !errors.Is(err, sql.ErrNoRows) {
+		return 0, err
+	}
+
+	return result.Float64, nil
+}
+
+func (r *repository) runMaxQuery(ctx context.Context, query string, args []interface{}) (int, error) {
+	// Init structure to hold result
+	result := struct {
+		Int int `db:"max"`
+	}{0}
+
+	// Perform query and fetch result
+	if err := r.tx.Get(ctx, &result, query, args...); err != nil && !errors.Is(err, sql.ErrNoRows) {
+		return 0, err
+	}
+
+	return result.Int, nil
+}
+
 func (r *repository) queryFunc(ctx context.Context, query string, args []interface{}, single bool, f func(rows *sqlx.Rows) error) error {
 	rows, err := r.tx.Queryx(ctx, query, args...)
 

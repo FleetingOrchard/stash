@@ -12,6 +12,12 @@ query AllTags {
   }
 }
 
+query AllBookmarks {
+  allBookmarks {
+    ...BookmarkData
+  }
+}
+
 query AllPerformersForFilter {
   allPerformers {
     ...SlimPerformerData

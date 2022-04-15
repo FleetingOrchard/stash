@@ -127,6 +127,8 @@
   "birth_year": "Birth Year",
   "birthdate": "Birthdate",
   "bitrate": "Bit Rate",
+  "bookmark": "Bookmark",
+  "bookmarks": "Bookmarks",
   "captions": "Captions",
   "career_length": "Career Length",
   "component_tagger": {
@@ -596,6 +598,7 @@
   },
   "configuration": "Configuration",
   "countables": {
+    "bookmarks": "{count, plural, one {Scene} other {Scenes}}",
     "files": "{count, plural, one {File} other {Files}}",
     "galleries": "{count, plural, one {Gallery} other {Galleries}}",
     "images": "{count, plural, one {Image} other {Images}}",

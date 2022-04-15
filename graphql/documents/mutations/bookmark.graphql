@@ -1,0 +1,15 @@
+mutation BookmarkCreate($input: BookmarkCreateInput!) {
+  bookmarkCreate(input: $input) {
+    ...BookmarkData
+  }
+}
+
+mutation BookmarkUpdate($input: BookmarkUpdateInput!) {
+  bookmarkUpdate(input: $input) {
+    ...BookmarkData
+  }
+}
+
+mutation BookmarkDestroy($id: ID!) {
+  bookmarkDestroy(input: { id: $id })
+}
