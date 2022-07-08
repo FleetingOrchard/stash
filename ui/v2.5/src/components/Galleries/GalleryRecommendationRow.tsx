@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { useFindGalleries } from "src/core/StashService";
 import Slider from "react-slick";
 import { GalleryCard } from "./GalleryCard";
@@ -23,10 +23,12 @@ export const GalleryRecommendationRow: FunctionComponent<IProps> = (
     return null;
   }
 
+  const header = props.header + ` (${cardCount})`;
+
   return (
     <RecommendationRow
       className="gallery-recommendations"
-      header={props.header}
+      header={header}
       link={
         <a href={`/galleries?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />

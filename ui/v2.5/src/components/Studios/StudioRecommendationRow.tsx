@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { useFindStudios } from "src/core/StashService";
 import Slider from "react-slick";
 import { StudioCard } from "./StudioCard";
@@ -23,10 +23,12 @@ export const StudioRecommendationRow: FunctionComponent<IProps> = (
     return null;
   }
 
+  const header = props.header + ` (${cardCount})`;
+
   return (
     <RecommendationRow
       className="studio-recommendations"
-      header={props.header}
+      header={header}
       link={
         <a href={`/studios?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />

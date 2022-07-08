@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { useFindImages } from "src/core/StashService";
 import Slider from "react-slick";
 import { ListFilterModel } from "src/models/list-filter/filter";
@@ -23,10 +23,12 @@ export const ImageRecommendationRow: FunctionComponent<IProps> = (
     return null;
   }
 
+  const header = props.header + ` (${cardCount})`;
+
   return (
     <RecommendationRow
       className="images-recommendations"
-      header={props.header}
+      header={header}
       link={
         <a href={`/images?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />

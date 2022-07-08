@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { useFindTags } from "src/core/StashService";
 import Slider from "react-slick";
 import { TagCard } from "./TagCard";
@@ -23,10 +23,12 @@ export const TagRecommendationRow: FunctionComponent<IProps> = (
     return null;
   }
 
+  const header = props.header + ` (${cardCount})`
+
   return (
     <RecommendationRow
       className="tag-recommendations"
-      header={props.header}
+      header={header}
       link={
         <a href={`/tags?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />

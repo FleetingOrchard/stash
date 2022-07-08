@@ -23,10 +23,12 @@ export const PerformerRecommendationRow: FunctionComponent<IProps> = (
     return null;
   }
 
+  const header = props.header + ` (${cardCount})`;
+
   return (
     <RecommendationRow
       className="performer-recommendations"
-      header={props.header}
+      header={header}
       link={
         <a href={`/performers?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from "react";
+import { FunctionComponent, useMemo } from "react";
 import { useFindScenes } from "src/core/StashService";
 import Slider from "react-slick";
 import { SceneCard } from "./SceneCard";
@@ -24,6 +24,8 @@ export const SceneRecommendationRow: FunctionComponent<IProps> = (
     return SceneQueue.fromListFilterModel(props.filter);
   }, [props.filter]);
 
+  const header = props.header + ` (${cardCount})`;
+
   if (!result.loading && !cardCount) {
     return null;
   }
@@ -31,7 +33,7 @@ export const SceneRecommendationRow: FunctionComponent<IProps> = (
   return (
     <RecommendationRow
       className="scene-recommendations"
-      header={props.header}
+      header={header}
       link={
         <a href={`/scenes?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />

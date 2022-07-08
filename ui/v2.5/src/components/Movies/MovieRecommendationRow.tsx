@@ -1,4 +1,4 @@
-import React from "react";
+import { FunctionComponent } from "react";
 import { useFindMovies } from "src/core/StashService";
 import Slider from "react-slick";
 import { MovieCard } from "./MovieCard";
@@ -13,7 +13,7 @@ interface IProps {
   header: string;
 }
 
-export const MovieRecommendationRow: React.FC<IProps> = (props: IProps) => {
+export const MovieRecommendationRow: FunctionComponent<IProps> = (props: IProps) => {
   const result = useFindMovies(props.filter);
   const cardCount = result.data?.findMovies.count;
 
@@ -21,10 +21,12 @@ export const MovieRecommendationRow: React.FC<IProps> = (props: IProps) => {
     return null;
   }
 
+  const header = props.header + ` (${cardCount})`;
+
   return (
     <RecommendationRow
       className="movie-recommendations"
-      header={props.header}
+      header={header}
       link={
         <a href={`/movies?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />

@@ -15,7 +15,7 @@ export const RecommendationRow: React.FC<PropsWithChildren<IProps>> = ({
   <div className={`recommendation-row ${className}`}>
     <div className="recommendation-row-head">
       <div>
-        <h2>{header}</h2>
+        <a href={link.props["href"]}><h2>{header}</h2></a>
       </div>
       {link}
     </div>
