@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import noop from "lodash-es/noop";
 
 const MIN_VALID_INTERVAL = 1000;

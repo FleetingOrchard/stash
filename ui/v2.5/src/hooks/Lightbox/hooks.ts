@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import * as GQL from "src/core/generated-graphql";
 import { LightboxContext, IState } from "./context";
 

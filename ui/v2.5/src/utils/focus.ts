@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 const useFocus = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
