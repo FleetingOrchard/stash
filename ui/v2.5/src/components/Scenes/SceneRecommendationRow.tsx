@@ -1,4 +1,4 @@
-import { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { useFindScenes } from "src/core/StashService";
 import Slider from "react-slick";
 import { SceneCard } from "./SceneCard";

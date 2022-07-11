@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { useFindMovies } from "src/core/StashService";
 import Slider from "react-slick";
 import { MovieCard } from "./MovieCard";

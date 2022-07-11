@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { useFindGalleries } from "src/core/StashService";
 import Slider from "react-slick";
 import { GalleryCard } from "./GalleryCard";

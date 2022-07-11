@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { useFindTags } from "src/core/StashService";
 import Slider from "react-slick";
 import { TagCard } from "./TagCard";

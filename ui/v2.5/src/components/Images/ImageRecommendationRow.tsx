@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { useFindImages } from "src/core/StashService";
 import Slider from "react-slick";
 import { ListFilterModel } from "src/models/list-filter/filter";
