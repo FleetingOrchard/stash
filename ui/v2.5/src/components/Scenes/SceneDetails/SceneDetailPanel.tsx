@@ -113,6 +113,12 @@ export const SceneDetailPanel: React.FC<ISceneDetailProps> = (props) => {
               {TextUtils.resolution(file.width, file.height)}
             </h6>
           )}
+          {file?.duration && (
+            <h6>
+              <FormattedMessage id="duration" />:{" "}
+              {TextUtils.secondsToTimestamp(file.duration)}
+            </h6>
+          )}
           <h6>
             <FormattedMessage id="created_at" />:{" "}
             {TextUtils.formatDateTime(intl, props.scene.created_at)}{" "}
