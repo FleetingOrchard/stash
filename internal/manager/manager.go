@@ -29,6 +29,7 @@ import (
 	"github.com/stashapp/stash/pkg/models"
 	"github.com/stashapp/stash/pkg/models/paths"
 	"github.com/stashapp/stash/pkg/plugin"
+	"github.com/stashapp/stash/pkg/porcelain"
 	"github.com/stashapp/stash/pkg/scene"
 	"github.com/stashapp/stash/pkg/scene/generate"
 	"github.com/stashapp/stash/pkg/scraper"
@@ -112,6 +113,7 @@ type Manager struct {
 	FFProbe ffmpeg.FFProbe
 
 	ReadLockManager *fsutil.ReadLockManager
+	ExternalPlayer  porcelain.ExternalPlayer
 
 	SessionStore *session.Store
 
@@ -434,6 +436,11 @@ func initFFMPEG(ctx context.Context) error {
 	return nil
 }
 
+func initExternalPlayer(path string) error {
+	instance.ExternalPlayer = porcelain.ExternalPlayer(path)
+	return nil
+}
+
 func initLog() *log.Logger {
 	config := config.GetInstance()
 	l := log.NewLogger()
@@ -490,6 +497,8 @@ func (s *Manager) PostInit(ctx context.Context) error {
 	if err := database.Open(s.Config.GetDatabasePath()); err != nil {
 		return err
 	}
+
+	initExternalPlayer(s.Config.GetExternalPlayerPath())
 
 	return nil
 }
@@ -553,6 +562,11 @@ func (s *Manager) RefreshConfig() {
 // configuration changes.
 func (s *Manager) RefreshScraperCache() {
 	s.ScraperCache = s.initScraperCache()
+}
+
+// RefreshExternalPlayer refreshes the external player setting.
+func (s *Manager) RefreshExternalPlayer() {
+	initExternalPlayer(s.Config.GetExternalPlayerPath())
 }
 
 func setSetupDefaults(input *SetupInput) {

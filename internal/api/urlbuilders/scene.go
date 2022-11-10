@@ -78,3 +78,10 @@ func (b SceneURLBuilder) GetCaptionURL() string {
 func (b SceneURLBuilder) GetInteractiveHeatmapURL() string {
 	return b.BaseURL + "/scene/" + b.SceneID + "/interactive_heatmap"
 }
+
+func (b SceneURLBuilder) GetExternalPlayerURL() string {
+	//if !manager.GetInstance().ExternalPlayer.CheckValid() {
+	//	return ""
+	//}
+	return b.BaseURL + "/scene/" + b.SceneID + "/external_player"
+}

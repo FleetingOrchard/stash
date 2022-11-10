@@ -41,6 +41,8 @@ const (
 
 	Database = "database"
 
+	ExternalPlayer = "external_player"
+
 	Exclude      = "exclude"
 	ImageExclude = "image_exclude"
 
@@ -524,6 +526,10 @@ func (i *Instance) GetMetadataPath() string {
 
 func (i *Instance) GetDatabasePath() string {
 	return i.getString(Database)
+}
+
+func (i *Instance) GetExternalPlayerPath() string {
+	return i.getString(ExternalPlayer)
 }
 
 func (i *Instance) GetBackupDirectoryPath() string {

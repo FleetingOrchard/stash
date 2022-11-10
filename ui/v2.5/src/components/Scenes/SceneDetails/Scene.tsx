@@ -30,6 +30,7 @@ import SceneQueue, { QueuedScene } from "src/models/sceneQueue";
 import { ListFilterModel } from "src/models/list-filter/filter";
 import Mousetrap from "mousetrap";
 import { OCounterButton } from "./OCounterButton";
+import { SendToPCExternalPlayerButton } from "./SendToPCExternalPlayerButton";
 import { OrganizedButton } from "./OrganizedButton";
 import { ConfigurationContext } from "src/hooks/Config";
 import { getPlayerPosition } from "src/components/ScenePlayer/util";
@@ -108,6 +109,8 @@ const ScenePage: React.FC<IProps> = ({
   const [incrementO] = useSceneIncrementO(scene.id);
   const [decrementO] = useSceneDecrementO(scene.id);
   const [resetO] = useSceneResetO(scene.id);
+
+  const [sendToPCPlayer] = useSceneIncrementO(scene.id);
 
   const [organizedLoading, setOrganizedLoading] = useState(false);
 
@@ -377,6 +380,9 @@ const ScenePage: React.FC<IProps> = ({
           <ButtonGroup className="ml-auto">
             <Nav.Item className="ml-auto">
               <ExternalPlayerButton scene={scene} />
+            </Nav.Item>
+            <Nav.Item className="ml-auto">
+              <SendToPCExternalPlayerButton scene={scene} />
             </Nav.Item>
             <Nav.Item className="ml-auto">
               <OCounterButton

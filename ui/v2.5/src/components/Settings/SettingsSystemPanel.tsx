@@ -141,6 +141,14 @@ export const SettingsConfigurationPanel: React.FC = () => {
         />
 
         <StringSetting
+          id="external-player-path"
+          headingID="config.general.external_player_path.heading"
+          subHeadingID="config.general.external_player_path.description"
+          value={general.externalPlayerPath ?? undefined}
+          onChange={(v) => saveGeneral({ externalPlayerPath: v })}
+        />
+
+        <StringSetting
           id="custom-performer-image-location"
           headingID="config.ui.performers.options.image_location.heading"
           subHeadingID="config.ui.performers.options.image_location.description"

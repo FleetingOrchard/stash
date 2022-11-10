@@ -19,6 +19,7 @@ type ScenePathsType {
   funscript: String # Resolver
   interactive_heatmap: String # Resolver
   caption: String # Resolver
+  external_player: String # Resolver
 }
 
 type SceneMovie {

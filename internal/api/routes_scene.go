@@ -72,6 +72,9 @@ func (rs sceneRoutes) Routes() chi.Router {
 		r.Get("/scene_marker/{sceneMarkerId}/stream", rs.SceneMarkerStream)
 		r.Get("/scene_marker/{sceneMarkerId}/preview", rs.SceneMarkerPreview)
 		r.Get("/scene_marker/{sceneMarkerId}/screenshot", rs.SceneMarkerScreenshot)
+
+		// utility endpoints
+		r.Put("/external_player", rs.PushToPlayer)
 	})
 	r.With(rs.SceneCtx).Get("/{sceneId}_thumbs.vtt", rs.VttThumbs)
 	r.With(rs.SceneCtx).Get("/{sceneId}_sprite.jpg", rs.VttSprite)
@@ -446,6 +449,12 @@ func (rs sceneRoutes) SceneMarkerScreenshot(w http.ResponseWriter, r *http.Reque
 }
 
 // endregion
+
+func (rs sceneRoutes) PushToPlayer(w http.ResponseWriter, r *http.Request) {
+	scene := r.Context().Value(sceneKey).(*models.Scene)
+	externalPlayer := manager.GetInstance().ExternalPlayer
+	externalPlayer.RunPathInExternalPlayer(scene.Path)
+}
 
 func (rs sceneRoutes) SceneCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

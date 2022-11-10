@@ -47,6 +47,8 @@ input ConfigGeneralInput {
   scrapersPath: String
   """Path to cache"""
   cachePath: String
+  """Path to external player"""
+  externalPlayerPath: String
   """Whether to calculate MD5 checksums for scene video files"""
   calculateMD5: Boolean
   """Hash algorithm to use for generated file naming"""
@@ -130,6 +132,8 @@ type ConfigGeneralResult {
   scrapersPath: String!
   """Path to cache"""
   cachePath: String!
+  """Path to external player"""
+  externalPlayerPath: String!
   """Whether to calculate MD5 checksums for scene video files"""
   calculateMD5: Boolean!
   """Hash algorithm to use for generated file naming"""

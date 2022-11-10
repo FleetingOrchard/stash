@@ -91,6 +91,7 @@ func makeConfigGeneralResult() *ConfigGeneralResult {
 		ConfigFilePath:               config.GetConfigFile(),
 		ScrapersPath:                 config.GetScrapersPath(),
 		CachePath:                    config.GetCachePath(),
+		ExternalPlayerPath:           config.GetExternalPlayerPath(),
 		CalculateMd5:                 config.IsCalculateMD5(),
 		VideoFileNamingAlgorithm:     config.GetVideoFileNamingAlgorithm(),
 		ParallelTasks:                config.GetParallelTasks(),

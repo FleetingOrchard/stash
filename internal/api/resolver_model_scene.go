@@ -10,6 +10,7 @@ import (
 	"github.com/stashapp/stash/internal/api/urlbuilders"
 	"github.com/stashapp/stash/internal/manager"
 	"github.com/stashapp/stash/pkg/file"
+	"github.com/stashapp/stash/pkg/logger"
 	"github.com/stashapp/stash/pkg/models"
 	"github.com/stashapp/stash/pkg/utils"
 )
@@ -178,6 +179,24 @@ func (r *sceneResolver) Paths(ctx context.Context, obj *models.Scene) (*ScenePat
 	captionBasePath := builder.GetCaptionURL()
 	interactiveHeatmap := builder.GetInteractiveHeatmapURL()
 
+	//var externalPlayer string = builder.GetExternalPlayerURL()
+
+	var externalPlayer string = ""
+	if txnE := r.withTxn(ctx, func(ctx context.Context) error {
+		var err error
+		if err = obj.LoadPrimaryFile(ctx, r.repository.File); err == nil {
+			if obj.Files.Primary().Interactive {
+				externalPlayer = builder.GetExternalPlayerURL()
+			}
+			return nil
+		} else {
+			logger.Warnf("[externalPlayer loadE] %s", err.Error())
+			return err
+		}
+	}); txnE != nil {
+		logger.Warnf("[externalPlayer txnE] %s", txnE.Error())
+	}
+
 	return &ScenePathsType{
 		Screenshot:         &screenshotPath,
 		Preview:            &previewPath,
@@ -188,6 +207,7 @@ func (r *sceneResolver) Paths(ctx context.Context, obj *models.Scene) (*ScenePat
 		Funscript:          &funscriptPath,
 		InteractiveHeatmap: &interactiveHeatmap,
 		Caption:            &captionBasePath,
+		ExternalPlayer:     &externalPlayer,
 	}, nil
 }
 

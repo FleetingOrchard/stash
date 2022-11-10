@@ -71,6 +71,24 @@ func (r *mutationResolver) ConfigureGeneral(ctx context.Context, input ConfigGen
 		return nil
 	}
 
+	validateExecutable := func(key string, value string, optional bool) error {
+		if err := checkConfigOverride(config.Metadata); err != nil {
+			return err
+		}
+
+		if !optional || value != "" {
+			exists, err := fsutil.FileExists(value)
+			if err != nil {
+				return err
+			}
+			if !exists {
+				return fmt.Errorf("no such executable")
+			}
+		}
+
+		return nil
+	}
+
 	existingDBPath := c.GetDatabasePath()
 	if input.DatabasePath != nil && existingDBPath != *input.DatabasePath {
 		if err := checkConfigOverride(config.Database); err != nil {
@@ -129,6 +147,20 @@ func (r *mutationResolver) ConfigureGeneral(ctx context.Context, input ConfigGen
 		}
 
 		c.Set(config.Cache, input.CachePath)
+	}
+
+	refreshExternalPlayer := false
+	existingExternalPlayerPath := c.GetExternalPlayerPath()
+	if existingExternalPlayerPath != *input.ExternalPlayerPath {
+		// We want users to be able to blank the External Player path.
+		if *input.ExternalPlayerPath != "" {
+			if err := validateExecutable(config.ExternalPlayer, *input.ExternalPlayerPath, true); err != nil {
+				return makeConfigGeneralResult(), err
+			}
+		}
+
+		refreshExternalPlayer = true
+		c.Set(config.ExternalPlayer, input.ExternalPlayerPath)
 	}
 
 	if input.VideoFileNamingAlgorithm != nil && *input.VideoFileNamingAlgorithm != c.GetVideoFileNamingAlgorithm() {
@@ -287,6 +319,9 @@ func (r *mutationResolver) ConfigureGeneral(ctx context.Context, input ConfigGen
 	manager.GetInstance().RefreshConfig()
 	if refreshScraperCache {
 		manager.GetInstance().RefreshScraperCache()
+	}
+	if refreshExternalPlayer {
+		manager.GetInstance().RefreshExternalPlayer()
 	}
 
 	return makeConfigGeneralResult(), nil
