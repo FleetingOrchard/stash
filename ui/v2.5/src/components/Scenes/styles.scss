@@ -175,15 +175,16 @@ textarea.scene-description {
 }
 
 .scene-specs-overlay,
-.scene-interactive-speed-overlay {
+.scene-interactive-speed-overlay:not(:empty) {
   bottom: 1rem;
   color: $text-color;
   display: block;
   font-weight: 400;
   letter-spacing: -0.03rem;
   position: absolute;
-  right: 0.7rem;
   text-shadow: 0 0 3px #000;
+  background:rgba(0, 0, 0, 0.5);
+  box-shadow:0px 0px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 .scene-specs-overlay {
