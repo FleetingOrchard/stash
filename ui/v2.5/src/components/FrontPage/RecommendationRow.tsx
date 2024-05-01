@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from "react";
 
 interface IProps {
   className?: string;
-  header: string;
+  header: string | JSX.Element;
   link: JSX.Element;
 }
 

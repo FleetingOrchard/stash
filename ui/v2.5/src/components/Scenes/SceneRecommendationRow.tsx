@@ -30,7 +30,11 @@ export const SceneRecommendationRow: React.FC<IProps> = (props) => {
   return (
     <RecommendationRow
       className="scene-recommendations"
-      header={props.header}
+      header={
+        <Link to={`/scenes?${props.filter.makeQueryParameters()}`}>
+          {props.header}
+        </Link>
+      }
       link={
         <Link to={`/scenes?${props.filter.makeQueryParameters()}`}>
           <FormattedMessage id="view_all" />
